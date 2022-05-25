@@ -1,4 +1,5 @@
 import { books, authors } from "../libs/data.js";
+import { query } from "../db/index.js";
 
 export function getBooks() {
   return books;
