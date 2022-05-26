@@ -13,18 +13,18 @@ import {
 
 /* books endpoints go here */
 
-router.get("/", function (req, res) {
+router.get("/", async function (req, res) {
   if (req.query.search !== undefined) {
-    const result = searchBooksByTitle(req.query.search);
+    const result = await searchBooksByTitle(req.query.search);
     return res.json({ success: true, payload: result });
   }
 
   if (req.query.author !== undefined) {
-    const result = searchBooksByAuthor(req.query.author);
+    const result = await searchBooksByAuthor(req.query.author);
     return res.json({ success: true, payload: result });
   }
 
-  const result = getBooks();
+  const result = await getBooks();
   res.json({ success: true, payload: result });
 });
 

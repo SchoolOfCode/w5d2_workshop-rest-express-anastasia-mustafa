@@ -1,8 +1,9 @@
 import { books, authors } from "../libs/data.js";
 import { query } from "../db/index.js";
 
-export function getBooks() {
-  return books;
+export async function getBooks() {
+  const response = await query ('SELECT * FROM books;');
+  return response.rows;
 }
 
 export function searchBooksByTitle(searchTerm) {
