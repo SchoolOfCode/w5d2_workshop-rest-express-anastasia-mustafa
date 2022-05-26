@@ -28,9 +28,9 @@ router.get("/", async function (req, res) {
   res.json({ success: true, payload: result });
 });
 
-router.get("/:id", function (req, res) {
+router.get("/:id", async function (req, res) {
   const id = Number(req.params.id);
-  const book = getBookById(id);
+  const book = await getBookById(id);
   res.json({ success: true, payload: book });
 });
 

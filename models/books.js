@@ -14,28 +14,35 @@ export async function searchBooksByTitle(searchTerm) {
  return response.rows;
 }
 
-export function searchBooksByAuthor(searchTerm) {
-  const authorNamesMatchingSearchTerm = authors.filter(function (author) {
-    const authorName = `${author.first_name} ${author.last_name}`;
-    return authorName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
-
-  const authorIdsMatchingSearchTerm = authorNamesMatchingSearchTerm.map(
-    function (author) {
-      return author.id;
-    }
-  );
-
-  return books.filter(function (book) {
-    return authorIdsMatchingSearchTerm.includes(book.author_id);
-  });
+export async function searchBooksByAuthor(searchTerm) {
+  //add author's first and last name, create authors table
+  const response = await query(`SELECT * FROM books WHERE LIKE '%'||$1||'%';`,[searchTerm]);
+return response.rows;
 }
 
-export function getBookById(id) {
-  const found = books.find(function (book) {
-    return book.id === id;
-  });
-  return found;
+//   const authorNamesMatchingSearchTerm = authors.filter(function (author) {
+//     const authorName = `${author.first_name} ${author.last_name}`;
+//     return authorName.toLowerCase().includes(searchTerm.toLowerCase());
+//   });
+
+//   const authorIdsMatchingSearchTerm = authorNamesMatchingSearchTerm.map(
+//     function (author) {
+//       return author.id;
+//     }
+//   );
+
+//   return books.filter(function (book) {
+//     return authorIdsMatchingSearchTerm.includes(book.author_id);
+//   });
+// }
+
+export async function getBookById(id) {
+  const response = await query(`SELECT * FROM books WHERE Book_id = ($1)`,[id] )
+  // const found = books.find(function (book) {
+  //   return book.id === id;
+  // });
+  // return found;
+  return response.rows
 }
 
 export function createBook(book) {
