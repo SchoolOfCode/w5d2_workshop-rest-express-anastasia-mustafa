@@ -5,11 +5,13 @@ export async function getBooks() {
   const response = await query ('SELECT * FROM books;');
   return response.rows;
 }
-
-export function searchBooksByTitle(searchTerm) {
-  return books.filter(function (book) {
-    return book.title.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+//SELECT * FROM books WHERE Title = 
+export async function searchBooksByTitle(searchTerm) {
+  const response = await query(`SELECT * FROM books WHERE title LIKE '%'||$1||'%';`,[searchTerm]);
+  // return books.filter(function (book) {
+  //   return book.title.toLowerCase().includes(searchTerm.toLowerCase());
+ // });
+ return response.rows;
 }
 
 export function searchBooksByAuthor(searchTerm) {
