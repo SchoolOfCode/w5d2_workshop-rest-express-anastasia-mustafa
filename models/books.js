@@ -53,19 +53,24 @@ export async function createBook(book) {
 }
 //INSERT INTO users (first_name) VALUES ('Bob') RETURNING *;
 
-export function updateBookById(id, updates) {
-  const foundIndex = books.findIndex(function (book) {
-    return book.id === id;
-  });
-  books[foundIndex] = updates;
-  return books[foundIndex];
+export async function updateBookById(id, updates) {
+  const updatedBook = await query(`UPDATE books SET title = ($1) WHERE book_id = ($2) RETURNING *;`,[updates, id])
+  // const foundIndex = books.findIndex(function (book) {
+  //   return book.id === id;
+  // });
+  // books[foundIndex] = updates;
+  // return books[foundIndex];
+  return updatedBook.rows;
 }
 
-export function deleteBookById(id) {
-  const foundIndex = books.findIndex(function (book) {
-    return book.id === id;
-  });
-  const item = books[foundIndex];
-  books.splice(foundIndex, 1);
-  return item;
+export async function deleteBookById(id) {
+  const deletedBook = await query (`DELETE FROM books WHERE book_id = $1 RETURNING *`, [id])
+  // const foundIndex = books.findIndex(function (book) {
+  //   return book.id === id;
+  // });
+  // const item = books[foundIndex];
+  // books.splice(foundIndex, 1);
+  // return item;
+return deletedBook.rows;
 }
+//DELETE FROM users WHERE user_id = 4 RETURNING *;

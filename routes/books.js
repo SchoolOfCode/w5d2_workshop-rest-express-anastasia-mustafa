@@ -40,16 +40,16 @@ router.post("/", async function (req, res) {
   res.json({ success: true, payload: result });
 });
 
-router.put("/:id", function (req, res) {
+router.put("/:id", async function (req, res) {
   const id = Number(req.params.id);
   const data = req.body;
-  const result = updateBookById(id, data);
+  const result = await updateBookById(id, data);
   res.json({ success: true, payload: result });
 });
 
-router.delete("/:id", function (req, res) {
+router.delete("/:id", async function (req, res) {
   const id = Number(req.params.id);
-  const result = deleteBookById(id);
+  const result = await deleteBookById(id);
   res.json({ success: true, payload: result });
 });
 
