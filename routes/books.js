@@ -34,9 +34,9 @@ router.get("/:id", async function (req, res) {
   res.json({ success: true, payload: book });
 });
 
-router.post("/", function (req, res) {
+router.post("/", async function (req, res) {
   const newBook = req.body;
-  const result = createBook(newBook);
+  const result = await createBook(newBook);
   res.json({ success: true, payload: result });
 });
 

@@ -2,16 +2,16 @@ import { books, authors } from "../libs/data.js";
 import { query } from "../db/index.js";
 
 export async function getBooks() {
-  const response = await query ('SELECT * FROM books;');
-  return response.rows;
+  const books = await query ('SELECT * FROM books;');
+  return books.rows;
 }
 //SELECT * FROM books WHERE Title = 
 export async function searchBooksByTitle(searchTerm) {
-  const response = await query(`SELECT * FROM books WHERE title LIKE '%'||$1||'%';`,[searchTerm]);
+  const title = await query(`SELECT * FROM books WHERE title LIKE '%'||$1||'%';`,[searchTerm]);
   // return books.filter(function (book) {
   //   return book.title.toLowerCase().includes(searchTerm.toLowerCase());
  // });
- return response.rows;
+ return title.rows;
 }
 
 export async function searchBooksByAuthor(searchTerm) {
@@ -37,18 +37,21 @@ return response.rows;
 // }
 
 export async function getBookById(id) {
-  const response = await query(`SELECT * FROM books WHERE Book_id = ($1)`,[id] )
+  const bookId = await query(`SELECT * FROM books WHERE Book_id = ($1)`,[id] )
   // const found = books.find(function (book) {
   //   return book.id === id;
   // });
   // return found;
-  return response.rows
+  return bookId.rows
 }
 
-export function createBook(book) {
-  books.push(book);
-  return books[books.length - 1];
+export async function createBook(book) {
+  const newBook = await query(`INSERT INTO books (Title) VALUES ($1) RETURNING *`, [book])
+  // books.push(book);
+  // return books[books.length - 1];
+  return newBook.rows;
 }
+//INSERT INTO users (first_name) VALUES ('Bob') RETURNING *;
 
 export function updateBookById(id, updates) {
   const foundIndex = books.findIndex(function (book) {
