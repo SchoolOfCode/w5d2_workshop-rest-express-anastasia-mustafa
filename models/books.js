@@ -46,7 +46,7 @@ export async function getBookById(id) {
 }
 
 export async function createBook(book) {
-  const newBook = await query(`INSERT INTO books (Title) VALUES ($1) RETURNING *`, [book])
+  const newBook = await query(`INSERT INTO books (Title) VALUES ($1) RETURNING *`,[book.title])
   // books.push(book);
   // return books[books.length - 1];
   return newBook.rows;
